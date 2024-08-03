@@ -195,7 +195,7 @@ We also hope you note that we have not verified, maintained, or updated third-pa
 To prepare the Python environment and install additional packages such as opencv, diffusers, mmcv, etc., please follow the steps below:
 ### Build environment
 
-We recommend a python version >=3.10 and cuda version =11.7. Then build environment as follows:
+We recommend a python version >=3.10 and mps version =11.7. Then build environment as follows:
 
 ```shell
 pip install -r requirements.txt

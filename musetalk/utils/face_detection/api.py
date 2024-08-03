@@ -45,7 +45,7 @@ class NetworkSize(Enum):
 
 class FaceAlignment:
     def __init__(self, landmarks_type, network_size=NetworkSize.LARGE,
-                 device='cuda', flip_input=False, face_detector='sfd', verbose=False):
+                 device='mps', flip_input=False, face_detector='sfd', verbose=False):
         self.device = device
         self.flip_input = flip_input
         self.landmarks_type = landmarks_type
@@ -53,13 +53,13 @@ class FaceAlignment:
 
         network_size = int(network_size)
 
-        if 'cuda' in device:
+        if 'mps' in device:
             torch.backends.cudnn.benchmark = True
-#             torch.backends.cuda.matmul.allow_tf32 = False
+#             torch.backends.mps.matmul.allow_tf32 = False
 #             torch.backends.cudnn.benchmark = True
 #             torch.backends.cudnn.deterministic = False
 #             torch.backends.cudnn.allow_tf32 = True
-            print('cuda start')
+            print('mps start')
 
 
         # Get the face detector

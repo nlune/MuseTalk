@@ -9,6 +9,7 @@ import torchvision.transforms as transforms
 
 class FaceParsing():
     def __init__(self):
+        self.device = torch.device('mps')
         self.net = self.model_init()
         self.preprocess = self.image_preprocess()
 
@@ -16,9 +17,9 @@ class FaceParsing():
                    resnet_path='./models/face-parse-bisent/resnet18-5c106cde.pth', 
                    model_pth='./models/face-parse-bisent/79999_iter.pth'):
         net = BiSeNet(resnet_path)
-        if torch.cuda.is_available():
-            net.cuda()
-            net.load_state_dict(torch.load(model_pth)) 
+        if torch.backends.mps.is_available():
+            net.to(self.device)
+            net.load_state_dict(torch.load(model_pth, map_location=torch.device('mps'))) 
         else:
             net.load_state_dict(torch.load(model_pth, map_location=torch.device('cpu')))
         net.eval()
@@ -38,8 +39,8 @@ class FaceParsing():
         with torch.no_grad():
             image = image.resize(size, Image.BILINEAR)
             img = self.preprocess(image)
-            if torch.cuda.is_available():
-                img = torch.unsqueeze(img, 0).cuda()
+            if torch.backends.mps.is_available():
+                img = torch.unsqueeze(img, 0).to(self.device)
             else:
                 img = torch.unsqueeze(img, 0)
             out = self.net(img)[0]
